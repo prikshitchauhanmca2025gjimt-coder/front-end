@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User profile validation helper
+    function isValidUserProfile(data) {
+      return data.role in ['Student', 'Parent', 'Teacher'] &&
+             data.name is string &&
+             data.name.size() > 0;
+    }
+
+    // Chat session validation helper
+    function isValidChatSession(data) {
+      return data.sessionId is string &&
+             data.createdAt is string;
+    }
+
+    // Chat message validation helper
+    function isValidChatMessage(data) {
+      return data.id is string &&
+             data.sessionId is string &&
+             data.role in ['user', 'model', 'system'] &&
+             data.text is string;
+    }
+
+    // Allow user profiles access
+    match /user_profiles/{userId} {
+      allow read, write: if true; // In development/demo, we allow read/write so the client is fully functional
+    }
+
+    // Allow chats access
+    match /chats/{sessionId} {
+      allow read, write: if true;
+
+      // Allow chat messages subcollection access
+      match /messages/{messageId} {
+        allow read, write: if true;
+      }
+    }
+  }
+}

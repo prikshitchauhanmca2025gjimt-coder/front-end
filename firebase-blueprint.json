@@ -1,0 +1,63 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Educational user profile for students, parents, or teachers.",
+      "type": "object",
+      "properties": {
+        "role": { "type": "string", "enum": ["Student", "Parent", "Teacher"] },
+        "name": { "type": "string" },
+        "studentId": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "class": { "type": "string" },
+        "subject": { "type": "string" },
+        "course": { "type": "string" },
+        "learningGoal": { "type": "string" },
+        "childName": { "type": "string" },
+        "profile_completed": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["role", "name"]
+    },
+    "ChatSession": {
+      "title": "ChatSession",
+      "description": "A chat session representing a learning conversation.",
+      "type": "object",
+      "properties": {
+        "sessionId": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "lastMessageAt": { "type": "string", "format": "date-time" },
+        "learningGoal": { "type": "string" }
+      },
+      "required": ["sessionId", "createdAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "An individual chat message in a session.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "sessionId": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "model", "system"] },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "sessionId", "role", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "user_profiles/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles of registered students, parents, or teachers."
+    },
+    "chats/{sessionId}": {
+      "schema": "ChatSession",
+      "description": "Active learning chat sessions."
+    },
+    "chats/{sessionId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Message logs inside a specific chat session."
+    }
+  }
+}

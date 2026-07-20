@@ -1,0 +1,6 @@
+{
+  "name": "EduShape Learning",
+  "description": "A clean, modern educational platform landing page with an integrated AI tutor and study assistant chatbot.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
